@@ -27,6 +27,5 @@ describe('require-sha', function() {
   });
 
   it('supports installing modules', function() {
-    requireSha('')
   });
 });

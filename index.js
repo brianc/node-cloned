@@ -17,4 +17,8 @@ var requireSha = module.exports = function(workingDir, sha, cb) {
   });
 };
 
-requireSha.CURRENT_SHA = '183bfd9';
+//returns the current sha of the module
+//only used in testing
+requireSha._getCurrentSha = function(cb) {
+  exec('git log --format=%h', {cwd: __dirname}, cb);
+};
