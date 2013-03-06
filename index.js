@@ -13,4 +13,4 @@ var requireSha = module.exports = function(workingDir, sha, cb) {
   });
 };
 
-requireSha.CURRENT_SHA = 'd1a57ed';
+requireSha.CURRENT_SHA = '183bfd9';
