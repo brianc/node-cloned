@@ -6,7 +6,6 @@ var requireSha = module.exports = function(workingDir, sha, cb) {
   if(typeof sha == 'function') {
     cb = sha;
     sha = workingDir;
-
     workingDir = os.tmpDir();
   }
   var moduleDir = path.join(workingDir, sha);
@@ -20,7 +19,7 @@ var requireSha = module.exports = function(workingDir, sha, cb) {
       if(err) return cb(err, null, clean);
       exec('npm install', options, function(err, stdout, stderr) {
         if(err) return cb(err, null, clean);
-        cb(null, require(moduleDir), clean);
+        cb(null, moduleDir, clean);
       });
     });
   });

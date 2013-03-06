@@ -12,8 +12,9 @@ describe('require-sha', function() {
     requireSha(workingDir, 'd1a57ed', function(err, module) {
       if(err) return done(err);
       assert.equal(typeof module.CURRENT_SHA, "undefined")
-      requireSha(workingDir, '183bfd9', function(err, module, clean) {
+      requireSha(workingDir, '183bfd9', function(err, repoDir, clean) {
         if(err) return done(err);
+        var module = require(repoDir);
         assert.equal(module.CURRENT_SHA, 'd1a57ed');
         assert(fs.existsSync(workingDir + '/d1a57ed'));
           assert(fs.existsSync(workingDir + '/183bfd9'));
@@ -28,12 +29,14 @@ describe('require-sha', function() {
 
   it('does not require working dir', function(done) {
     var wantedSha = 'aa9e877';
-    requireSha(wantedSha, function(err, module, clean) {
+    requireSha(wantedSha, function(err, repoDir, clean) {
+      var module = require(repoDir);
       if(err) {
         return clean(function() {
           done(err);
         });
       }
+      var modulerequire
       module._getCurrentSha(function(err, sha) {
         assert.equal(sha, wantedSha);
         clean(done);
