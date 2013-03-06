@@ -20,6 +20,7 @@ Clone a local or remote git repository at a specific revision.  Then do an `npm 
 ```js
 var cloned = require('cloned');
 
+//clone the current git repository (found at process.cwd) to a specific revision
 cloned('ea1883', function(err, dir) {
 
 });
@@ -29,6 +30,7 @@ cloned('ea1883', function(err, dir) {
 ```js
 var cloned = require('cloned');
 
+//clone a remote repository at a specific revision
 cloned('https://github.com/brianc/node-cloned@ea18834', function(err, dir) {
 
 });
