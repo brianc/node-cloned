@@ -1,11 +1,8 @@
 {
-  "name": "require-sha",
-  "version": "0.0.0",
-  "description": "require a previous commit of the current module",
+  "name": "cloned",
+  "version": "0.0.1",
+  "description": "clones a module at the given revision",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
   "dependencies": {
     "rmdir": "~1.0.0"
   },
@@ -27,6 +24,5 @@
     "benchmark"
   ],
   "author": "Brian M. Carlson",
-  "license": "MIT",
-  "gitHead": "ea188348b212c8bd2a7d05e1f3781c96e88e36ba"
+  "license": "MIT"
 }

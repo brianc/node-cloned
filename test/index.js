@@ -1,8 +1,9 @@
+var os = require('os');
 var fs = require('fs');
 var assert = require('assert');
 
 var cloned = require(__dirname + '/../')
-var workingDir = __dirname + '/.working';
+var workingDir = os.tmpDir() + '/.working';
 
 cloned.workingDir = workingDir;
 
@@ -15,44 +16,39 @@ describe('cloned', function() {
     cloned('d1a57ed', function(err, module) {
       if(err) return done(err);
       assert.equal(typeof module.CURRENT_SHA, "undefined")
-      cloned('183bfd9', function(err, repoDir, clean) {
+      cloned('183bfd9', function(err, repoDir) {
         if(err) return done(err);
         var module = require(repoDir);
         assert.equal(module.CURRENT_SHA, 'd1a57ed');
         assert(fs.existsSync(workingDir + '/d1a57ed'));
-          assert(fs.existsSync(workingDir + '/183bfd9'));
-        clean(function(err) {
-          assert(fs.existsSync(workingDir + '/d1a57ed'));
-          assert(!fs.existsSync(workingDir + '/183bfd9'));
-          done();
-        });
+        assert(fs.existsSync(workingDir + '/183bfd9'));
+        done();
       });
     });
   });
 
   it('supports installing modules', function(done) {
     var wantedSha = 'aa9e877';
-    cloned(wantedSha, function(err, dir, clean) {
+    cloned(wantedSha, function(err, dir) {
       assert(fs.existsSync(workingDir + '/aa9e877/node_modules/rmdir'));
       var module = require(dir);
       module._getCurrentSha(function(err, sha) {
         assert.equal(sha, wantedSha);
-        clean(done);
+        done();
       })
     });
   });
 
-  it('returns clean method even if there is an error', function(done) {
-    cloned('asld', function(err, module, clean) {
+  it('returns error', function(done) {
+    cloned('asld', function(err, module) {
       assert(err);
       assert.equal(module, null);
-      assert.equal(typeof clean, 'function');
-      clean(done);
+      done();
     });
   });
 
   it('clones remote', function(done) {
-    cloned('git://github.com/brianc/node-sql.git@813ea7e0', function(err, module, clean) {
+    cloned('git://github.com/brianc/node-sql.git@813ea7e0', function(err, module) {
       assert.ifError(err);
       assert(fs.existsSync(module + '/node_modules/tap'));
       var json = JSON.parse(fs.readFileSync(module + '/package.json'));
