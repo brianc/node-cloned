@@ -27,16 +27,34 @@ describe('require-sha', function() {
   });
 
   it('does not require working dir', function(done) {
-    var wantedSha = 'd2f138f';
+    var wantedSha = 'aa9e877';
     requireSha(wantedSha, function(err, module, clean) {
+      if(err) {
+        return clean(function() {
+          done(err);
+        });
+      }
       module._getCurrentSha(function(err, sha) {
-        console.log(sha);
         assert.equal(sha, wantedSha);
         clean(done);
       })
     });
   });
 
-  it('supports installing modules', function() {
+  it('supports installing modules', function(done) {
+    var wantedSha = 'aa9e877';
+    requireSha(workingDir, wantedSha, function(err, module, clean) {
+      assert(fs.existsSync(workingDir + '/aa9e877/node_modules/rmdir'));
+      clean(done);
+    });
+  });
+
+  it('returns clean method even if there is an error', function(done) {
+    requireSha('asld', function(err, module, clean) {
+      assert(err);
+      assert.equal(module, null);
+      assert.equal(typeof clean, 'function');
+      clean(done);
+    });
   });
 });

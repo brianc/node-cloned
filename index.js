@@ -10,15 +10,17 @@ var requireSha = module.exports = function(workingDir, sha, cb) {
     workingDir = os.tmpDir();
   }
   var moduleDir = path.join(workingDir, sha);
+  var options = { cwd: moduleDir };
+  var clean = function(cb) {
+    require('rmdir')(moduleDir, cb);
+  };
   exec('git clone . ' + moduleDir, function(err, stdout, stderr) {
-    if(err) throw err;
-    var options = {
-      cwd: moduleDir
-    };
+    if(err) return cb(err, null, clean);
     exec('git checkout ' + sha, options, function(err, stdout, stderr) {
-      if(err) throw err;
-      cb(null, require(moduleDir), function(cb) {
-        require('rmdir')(moduleDir, cb);
+      if(err) return cb(err, null, clean);
+      exec('npm install', options, function(err, stdout, stderr) {
+        if(err) return cb(err, null, clean);
+        cb(null, require(moduleDir), clean);
       });
     });
   });
