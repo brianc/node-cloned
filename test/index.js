@@ -26,6 +26,17 @@ describe('require-sha', function() {
     });
   });
 
+  it('does not require working dir', function(done) {
+    var wantedSha = 'e707037';
+    requireSha(wantedSha, function(err, module, clean) {
+      module._getCurrentSha(function(err, sha) {
+        console.log(sha);
+        assert.equal(sha, wantedSha);
+        clean(done);
+      })
+    });
+  });
+
   it('supports installing modules', function() {
   });
 });
