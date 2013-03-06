@@ -1,0 +1,32 @@
+{
+  "name": "require-sha",
+  "version": "0.0.0",
+  "description": "require a previous commit of the current module",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "rmdir": "~1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.8.1"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/brianc/node-require-sha.git"
+  },
+  "keywords": [
+    "require",
+    "git",
+    "history",
+    "version",
+    "benchmark"
+  ],
+  "author": "Brian M. Carlson",
+  "license": "MIT",
+  "gitHead": "ea188348b212c8bd2a7d05e1f3781c96e88e36ba"
+}
