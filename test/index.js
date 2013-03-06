@@ -27,7 +27,7 @@ describe('require-sha', function() {
   });
 
   it('does not require working dir', function(done) {
-    var wantedSha = 'e707037';
+    var wantedSha = 'd2f138f';
     requireSha(wantedSha, function(err, module, clean) {
       module._getCurrentSha(function(err, sha) {
         console.log(sha);
