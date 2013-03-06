@@ -6,7 +6,7 @@ var workingDir = __dirname + '/.working';
 
 cloned.workingDir = workingDir;
 
-describe('require-sha', function() {
+describe('cloned', function() {
   after(function(done) {
     require('rmdir')(cloned.workingDir, done);
   });
@@ -48,6 +48,16 @@ describe('require-sha', function() {
       assert.equal(module, null);
       assert.equal(typeof clean, 'function');
       clean(done);
+    });
+  });
+
+  it('clones remote', function(done) {
+    cloned('git://github.com/brianc/node-sql.git@813ea7e0', function(err, module, clean) {
+      assert.ifError(err);
+      assert(fs.existsSync(module + '/node_modules/tap'));
+      var json = JSON.parse(fs.readFileSync(module + '/package.json'));
+      assert.equal('0.2.0', json.version);
+      done();
     });
   });
 });

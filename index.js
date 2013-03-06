@@ -8,7 +8,14 @@ var cloned = module.exports = function(sha, cb) {
   var clean = function(cb) {
     require('rmdir')(moduleDir, cb);
   };
-  exec('git clone . ' + moduleDir, function(err, stdout, stderr) {
+  var source = '.';
+  //support remote repositories
+  if(sha.indexOf('@') > 0) {
+    var splits = sha.split('@');
+    source = splits[0];
+    sha = splits[1];
+  }
+  exec('git clone ' + source + ' ' + moduleDir, function(err, stdout, stderr) {
     if(err) return cb(err, null, clean);
     exec('git checkout ' + sha, options, function(err, stdout, stderr) {
       if(err) return cb(err, null, clean);
