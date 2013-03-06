@@ -1,11 +1,18 @@
+var fs = require('fs');
 var assert = require('assert');
 
-describe('require-sha', function() {
-  it('works', function(done) {
-    var workingDir = __dirname + '/.working';
-    requireSha(workingDir, '9856c7e', function(err, module) {
-      if(err) return done(err);
+var requireSha = require(__dirname + '/../')
 
+var workingDir = __dirname + '/.working';
+describe('require-sha', function() {
+  after(function(done) {
+    require('rmdir')(workingDir, done);
+  });
+  it('works', function(done) {
+    requireSha(workingDir, 'd1a57ed', function(err, module) {
+      if(err) return done(err);
+      assert.equal(typeof module.CURRENT_SHA, "undefined")
+      done();
     });
   });
 });
